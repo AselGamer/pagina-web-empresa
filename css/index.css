@@ -14,6 +14,9 @@ body
 
 #cuerpo 
 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     background-color: white;
     height: 100%;
 }
@@ -98,6 +101,74 @@ body
     align-content: center;
 }
 
+h1
+{
+    width: auto;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: underline;
+}
+
+#productos 
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#productos img
+{
+    max-width: 312px;
+    max-height: 256px;
+}
+
+.producto 
+{
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 327px;
+    margin: 50px;
+    padding: 10px;
+}
+
+.producto a 
+{
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+.producto a:hover
+{
+    background-color: rgb(28, 28, 28);
+}
+
+#footer 
+{
+    display: flex;
+    background-color: grey;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 10%;
+}
+
+#footer p
+{
+    text-align: center;
+    color: black;
+}
+
 /*esto es de chatgpt*/
 .search-container {
     display: flex;
@@ -135,4 +206,5 @@ body
     font-size: 16px;
     cursor: pointer;
     border-radius: 20px;
+    width: 55px;
   }
