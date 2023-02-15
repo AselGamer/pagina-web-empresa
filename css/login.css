@@ -13,20 +13,21 @@
 #login 
 {
     display: flex;
-    height: 250px;
-    width: 350px;
+    padding: 5px;
+    min-width: 350px;
     align-items: center;
     justify-content: center;
     border: 3px solid black;
     border-radius: 25px;
 }
 
-#login form input[type="text"] ,#login form input[type="password"] 
+#login form input[type="text"] ,#login form input[type="password"], #descripcion
 {
     border: 2px solid black;
     border-radius: 25px;
     width: 300px;
-    height: 20px;
+    caret-color: transparent;
+    resize: none;
 }
 
 #login form label
@@ -49,4 +50,32 @@
     transition: 0.25s;
     background-color: black;
     color: white;
+}
+
+#imagen 
+{
+    margin-top: 10px;
+}
+
+#imagen::file-selector-button
+{
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 20px;
+}
+
+#imagen::file-selector-button:hover
+{
+    transition: 0.25s;
+    color: white;
+    border: 2px solid white;
+    background-color: black;
+}
+
+#tipo_componente 
+{
+    margin-top: 10px;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 20px;
 }
