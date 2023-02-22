@@ -26,18 +26,28 @@ if(!isset($_SESSION['user']))
             <a href="indexcategorias.html" id="enlaceCategorias">Ver Categorias</a>
             <div id="productos">
                     <?php
-                        for ($i=0; $i < 0; $i++) { 
-                            
+                    if($_SESSION['id_proveedor'] == NULL) 
+                    {
+                        $componentes = getComponentes();
+                    } else {
+                        $componentes = getComponentesUsuario($_SESSION['id_usuario']);
+                    }
+                        
+                        $tam = sizeof($componentes);
+                        for ($i=0; $i < $tam; $i++) { 
+                            echo '<div class="producto">';
+                            echo '<img src="'.$componentes[$i]['imagen'].'" alt="'.$componentes[$i]['nombre'].'">';
+                            echo '<h3>'.$componentes[$i]['nombre'].'</h3>';
+                            echo '<p>'.$componentes[$i]['descripcion'].'</p>';
+                            echo '<p>'.$componentes[$i]['precio'].'€</p>';
+                            echo '<a href="eliminar.php?id_componente='.$componentes[$i]['id_componente'].'">Eliminar</a>';
+                            echo '<a href="editar.php?id_componente='.$componentes[$i]['id_componente'].'">Editar</a>';
+                            echo '</div>';
                         }
 
-                        echo '<div class="producto">';
-                        echo '<img src="images/prod1.png" alt="producto1">';
-                        echo '<h3>Titulo</h3>';
-                        echo '<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero vel et hic, ex dignissimos architecto aut necessitatibus repellat praesentium repudiandae delectus ipsam dolore ipsum, aliquam id numquam nostrum voluptate ad!</p>';
-                        echo '<p>20€</p>';
-                        echo '<a href="eliminar.php">Eliminar</a>';
-                        echo '<a href="editar.php">Editar</a>';
-                        echo '</div>';
+                        if($tam == 0) {
+                            echo '<h2>No tienes productos</h2>';
+                        }
 
                     ?>
                     
