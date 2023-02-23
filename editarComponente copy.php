@@ -5,6 +5,8 @@ if(!isset($_SESSION['user']))
 {
     header('Location: login.html');
 }
+
+$componentes = getIdComponentes($_GET['id_componente']);
 ?>
 
 
@@ -22,21 +24,38 @@ if(!isset($_SESSION['user']))
         </div>
         <div id="cuerpo">
             <div id="login">
-            <form action="addProducto.php" method="post" enctype="multipart/form-data">
+            <form action="editar.php" method="post" enctype="multipart/form-data">
                         <label for="nombre" class="etiqueta">Name:</label>
-                        <input type="text" id="nombre" name="nombre" class="entradaTexto"/>
+                        <?php
+                        echo "<input type='text' id='nombre' name='nombre' value='".$componentes['nombre']."' class='entradaTexto'/>";
+                        
+                        ?>
+                        
+                       
                         <label for="precio" class="etiqueta">Price:</label>
-                        <input type="text" id="precio" name="precio" class="entradaTexto"/>
+                        <?php
+                        echo "<input type='text' id='precio' name='precio' value='".$componentes['precio']."' class='entradaTexto'/>";
+                        
+                        ?>
                         <label for="descripcion" class="etiqueta">Description:</label>
-                        <textarea id="descripcion" name="descripcion" class="entradaTexto"></textarea>
+                        <?php
+                        echo "<textarea id='descripcion' name='descripcion' class='entradaTexto'>".$componentes['descripcion']."</textarea>";
+                        
+                        ?>
                         <label for="imagen" class="etiqueta">Image:</label>
-                        <input type="file" id="imagen" name="imagen" class="entradaTexto"/>
+                        <?php
+                        echo "<input type='file' id='imagen' name='imagen' value='".$componentes['image']."' class='entradaTexto'/>";
+                        
+                        ?>
                         <label for="tipo_componente" class="etiqueta">Component type:</label>
                         <select name="tipo_componente" id="tipo_componente">
                             <?php
                             $tipoComps = getTipoComp();
                             $size = sizeof($tipoComps);
                             for($i = 0; $i < $size; $i++) {
+                                if($tipoComps == $componentes['id_componente']) {
+                                    
+                                }
                                 echo '<option value='.$tipoComps[$i]['idTipoComponente'].'>'.$tipoComps[$i]['nombre'].'</option>';
                             }
                             ?>
@@ -44,11 +63,11 @@ if(!isset($_SESSION['user']))
                         <?php 
                         echo '<input type="hidden" id="id_usuario" name="id_usuario" value='.$_SESSION['id_usuario'].' class="entradaTexto"/>';
                         ?>
-                        <div id="botonRegistro"><input type="submit" value="Add product" id="registrarse" class="entradaTexto"/></div>
+                         <div id="botonRegistro"><input type="submit" value="Edit" id="editar" class="entradaTexto"/></div>
             </form>
             </div>
             <?php
-            if($_GET['error'] == 1) {
+             if($_GET['error'] == 1) {
                 echo '<p>The image size is too large</p>';
             } elseif ($_GET['error'] == 2) {
                 echo '<p>Invalid fiel type</p>';

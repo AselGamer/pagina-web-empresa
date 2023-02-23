@@ -12,12 +12,12 @@
         </div>
         <div id="cuerpo">
             <div id="login">
-            <form action="iniciarSesion.php" method="post">
-                        <label for="user" class="etiqueta">Username:</label>
+            <form action="updateUser.php" method="post">
+                        <label for="user" class="etiqueta">New Username:</label>
                         <input type="text" id="nombreusuario" name="user" class="entradaTexto"/>
-                        <label for="password" class="etiqueta">Password:</label>
+                        <label for="password" class="etiqueta">New Password:</label>
                         <input type="password" id="contraseña" name="password" class="entradaTexto"/>
-                        <div id="botonRegistro"><input type="submit" value="Login" id="registrarse" class="entradaTexto"/></div>
+                        <div id="botonRegistro"><input type="submit" value="Change" id="registrarse" class="entradaTexto"/></div>
             </form>
             </div>
         </div>
