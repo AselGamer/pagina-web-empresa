@@ -24,7 +24,7 @@ function getTipoComp() {
     while(oci_fetch($sentencia))
     {
       $tipo_componente = array(
-        'idTipoComponente'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
+        'id_tipo_componente'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
         'nombre' => oci_result($sentencia, 'NOMBRE')
       );
       $tip[] = $tipo_componente;
@@ -190,16 +190,18 @@ function eliminarComponente($id_componente) {
   return $ejecucion;
 }
 
-function editarComponentes($id_componente) {
+function editarComponentes($id_componente, $descripcion, $precio, $nombre, $tipo_componente, $imagen) {
   $conex = connectOCI();
-  $sql = 'UPDATE Componente SET nombre= :nombre, descripcion= :descripcion, id_usuario= :id_usuario, precio= :precio, imagen= :imagen WHERE id_usuario= :id_usuario';
+  $sql = 'UPDATE Componente SET descripcion= :descripcion, precio= :precio, nombre= :nombre, id_tipo_componente= :tipo_componente, imagen= :imagen WHERE id_componente = :id_componente';
   $sentencia = oci_parse($conex, $sql);
+  oci_bind_by_name($sentencia, ":id_componente", $id_componente);
   oci_bind_by_name($sentencia, ":nombre", $nombre);
   oci_bind_by_name($sentencia, ":descripcion", $descripcion);
-  oci_bind_by_name($sentencia, ":id_usuario", $id_usuario);
   oci_bind_by_name($sentencia, ":precio", $precio);
+  oci_bind_by_name($sentencia, ":tipo_componente", $tipo_componente);
   oci_bind_by_name($sentencia, ":imagen", $imagen);
   $ejecucion = oci_execute($sentencia);
+  oci_free_statement($sentencia);
   oci_close($conex);
   return $ejecucion;
   
@@ -251,6 +253,104 @@ function updateUser($user, $password, $id){
   oci_close($conex);
   return $ejecucion;
 
+}
+
+
+function getBusqueda($busqueda, $userid){
+  $conex = connectOCI();
+  $sql = "SELECT componente.* FROM Componente 
+  INNER JOIN tipo_componente ON tipo_componente.id_tipo_componente=componente.id_tipo_componente 
+  WHERE componente.id_usuario= :id_usuario AND LOWER(componente.nombre) LIKE LOWER('%' || :busqueda || '%') 
+  OR LOWER(componente.descripcion) LIKE LOWER('%' || :busqueda || '%') 
+  OR LOWER(tipo_componente.nombre) LIKE LOWER('%' || :busqueda || '%')";
+  $sentencia = oci_parse($conex, $sql);
+  oci_bind_by_name($sentencia, ":busqueda", $busqueda);
+  oci_bind_by_name($sentencia, ":id_usuario", $userid);
+  oci_define_by_name($sentencia, 'ID_COMPONENTE', $id_componente);
+  oci_define_by_name($sentencia, 'NOMBRE', $nombre);
+  oci_define_by_name($sentencia, 'PRECIO', $precio);
+  oci_define_by_name($sentencia, 'DESCRIPCION', $descripcion);
+  oci_define_by_name($sentencia, 'ID_USUARIO', $id_usuario);
+  oci_define_by_name($sentencia, 'ID_TIPO_COMPONENTE', $id_tipo_com);
+  oci_define_by_name($sentencia, 'IMAGEN', $imagen);
+  
+  oci_execute($sentencia);
+
+  
+
+  $tip = array();
+
+  while(oci_fetch($sentencia)) {
+    
+  $busqueda_componente = array(
+    'id_componente'=> oci_result($sentencia, 'ID_COMPONENTE'),
+    'id_componente_tipo'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
+    'nombre' => oci_result($sentencia, 'NOMBRE'),
+    'descripcion' => oci_result($sentencia, 'DESCRIPCION'),
+    'id_usuario' => oci_result($sentencia, 'NOMBRE'),
+    'precio' => oci_result($sentencia, 'PRECIO'),
+    'imagen' => oci_result($sentencia, 'IMAGEN')
+  );
+  
+  $tip[] = $busqueda_componente;
+}
+  
+
+  oci_free_statement($sentencia);
+  oci_close($conex);
+  return $tip;
+}
+
+function getComponenteTipos($idUsuario){
+  $conex = connectOCI();
+  $sql = 'BEGIN componente_tipo(:idusuario); END;';
+  $sentencia = oci_parse($conex, $sql);
+  oci_bind_by_name($sentencia, ":id_usuario", $idUsuario);
+  
+  
+
+  oci_free_statement($sentencia);
+  oci_close($conex);
+  return $tip;
+}
+
+function getComponentesTipo($id_usuario_proveedor, $tipo) {
+  $conex = connectOCI();
+  $sql = 'SELECT * FROM Componente WHERE id_usuario = :id_usuario AND id_tipo_componente= :tipo_componente';
+  $sentencia = oci_parse($conex, $sql);
+
+  oci_bind_by_name($sentencia, ":id_usuario", $id_usuario_proveedor);
+  oci_bind_by_name($sentencia, ":tipo_componente", $tipo);
+  oci_define_by_name($sentencia, 'ID_COMPONENTE', $id_componente);
+  oci_define_by_name($sentencia, 'NOMBRE', $nombre);
+  oci_define_by_name($sentencia, 'PRECIO', $precio);
+  oci_define_by_name($sentencia, 'DESCRIPCION', $descripcion);
+  oci_define_by_name($sentencia, 'ID_USUARIO', $id_usuario);
+  oci_define_by_name($sentencia, 'ID_TIPO_COMPONENTE', $id_tipo_com);
+  oci_define_by_name($sentencia, 'IMAGEN', $imagen);
+
+  oci_execute($sentencia);
+
+  $tip = array();
+
+  
+
+  while(oci_fetch($sentencia))
+  {
+    $tipo_componente = array(
+      'id_componente'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
+      'nombre' => oci_result($sentencia, 'NOMBRE'),
+      'descripcion' => oci_result($sentencia, 'DESCRIPCION'),
+      'id_usuario' => oci_result($sentencia, 'NOMBRE'),
+      'precio' => oci_result($sentencia, 'PRECIO'),
+      'imagen' => oci_result($sentencia, 'IMAGEN')
+    );
+    $tip[] = $tipo_componente;
+  }
+
+  oci_free_statement($sentencia);
+  oci_close($conex);
+  return $tip;
 }
 
 ?>

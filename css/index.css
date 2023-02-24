@@ -82,6 +82,22 @@ body
     width: 64px;
 }
 
+
+
+
+#logo1:hover {
+    animation-name: animacion;
+    animation:animacion 3s infinite;
+}
+
+
+@keyframes animacion {
+
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+    
+  }
+
 #busqueda 
 {
     width: 100%;

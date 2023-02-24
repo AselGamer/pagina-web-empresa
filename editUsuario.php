@@ -12,7 +12,7 @@
         </div>
         <div id="cuerpo">
             <div id="login">
-            <form action="updateUser.php" method="post">
+            <form action="actualizarUsuario.php" method="post">
                         <label for="user" class="etiqueta">New Username:</label>
                         <input type="text" id="nombreusuario" name="user" class="entradaTexto"/>
                         <label for="password" class="etiqueta">New Password:</label>
