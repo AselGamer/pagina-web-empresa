@@ -108,6 +108,16 @@ body
     left: 0;
     right: 0;
   }
+
+  .number {
+    font: bold 1.25rem/1 poppins;
+    color: #71DFBE;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-52%);
+    left: 0;
+    right: 0;
+  }
   
   .progress-bar {
     position: absolute;
@@ -204,6 +214,17 @@ h1
   }
   
   .search-container input[type="text"] {
+    width: 100%;
+    height: 100%;
+    outline-style: none; 
+    -moz-outline-style:none;
+    border: none;
+    padding: 0 20px;
+    font-size: 16px;
+    border-radius: 25px 0 0 25px;
+  }
+
+  .search-container input[type="number"] {
     width: 100%;
     height: 100%;
     outline-style: none; 

@@ -1,9 +1,14 @@
 <?php
-include 'bbdd.php';
+include_once 'bbdd.php';
+session_start();
+if(!isset($_SESSION['user']))
+{
+    header('Location: login.html');
+}
 
 $ubicacionImgs = 'images/';
 
-$ubicacionDeseada = 'images/' . basename($_FILES['imagen']['name']);
+$ubicacionDeseada = 'images/' . $_POST['id_usuario'] . $_POST['nombre'] . basename($_FILES['imagen']['name']);
 
 $temp = 'images/temp.png';
 
@@ -34,7 +39,7 @@ if (!empty($_FILES['imagen']['name'])) {
 }
 
 if(isset($_POST['editar'])) {
-    $resultado = editarComponentes($_POST['id'], $_POST['descripcion'], $_POST['precio'], $_POST['nombre'], $_POST['tipo_componente'], $ubicacionDeseada );
+    $resultado = editarComponentes($_POST['id'], $_POST['descripcion'], $_POST['precio'], $_POST['nombre'], $_POST['tipo_componente'], $ubicacionDeseada, $_SESSION['user']);
     header('location: index.php');
 }
 

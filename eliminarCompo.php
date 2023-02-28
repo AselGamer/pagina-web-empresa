@@ -1,19 +1,36 @@
+
+<?php
+include_once 'bbdd.php';
+
+session_start();
+$componentes = getIdComponente($_GET['id_componente']);
+$usuarioComponente = componenteProvedor($_GET['id_componente']);
+if(!isset($_SESSION['user']))
+{
+    header('Location: login.html');
+}
+if($usuarioComponente != $_SESSION['id_usuario'] AND $_SESSION['user'] != 'Admin'){
+    header('Location: index.php');
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
     <link rel="stylesheet" href="css/compartido.css">
     <link rel="stylesheet" href="css/login.css">
     <head>
         <meta charset="UTF-8"/>
-        <title>Test</title>
+        <title>Informatikalmi | Eliminar </title>
     </head>
     <body>
         <div id="cabecera">
-            <img src="images/logo.png" alt="logo" id="logo"/>
+        <a href="index.php"><img src="images/logo.png" alt="logo" id="logo"/></a>
         </div>
         <div id="cuerpo">
             <div id="login">
             <form action="eliminarComponente.php" method="post">
-                <label for="user" class="etiqueta">Estas seguro que quieres eliminar?</label>
+                <label for="user" class="etiqueta">¿Estas seguro que quieres eliminar?</label>
                 <label for="radio">Si</label>
                 <input type="radio" name="boton" id="" value='1'>
                         
@@ -24,8 +41,7 @@
                 echo "<input name='id' value=".$_GET['id_componente']." type='hidden'>";
                 ?>
 
-
-                <input name="eliminarComponente" type="submit" value="Enviar">
+                <div id='botonRegistro'><input name="eliminarComponente" type="submit" value="Eliminar"></div>
             </form>
 
             </div>

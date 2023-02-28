@@ -12,7 +12,7 @@ if($login)
     var_dump($login);
     header('Location: index.php');
 } else 
-{
+{   
     header('Location: login.html');
 }
 

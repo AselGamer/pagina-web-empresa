@@ -1,23 +1,34 @@
+<?php
+include_once 'bbdd.php';
+session_start();
+if(!isset($_SESSION['user']))
+{
+    header('Location: login.html');
+}
+?>
+
 <!DOCTYPE html>
 <html>
     <link rel="stylesheet" href="css/compartido.css">
     <link rel="stylesheet" href="css/login.css">
     <head>
         <meta charset="UTF-8"/>
-        <title>Test</title>
+        <title>Informatikalmi | User </title>
     </head>
     <body>
+    
+        
         <div id="cabecera">
-            <img src="images/logo.png" alt="logo" id="logo"/>
+        <a href="index.php"><img src="images/logo.png" alt="logo" id="logo"/></a>
         </div>
         <div id="cuerpo">
             <div id="login">
             <form action="actualizarUsuario.php" method="post">
-                        <label for="user" class="etiqueta">New Username:</label>
+                        <label for="user" class="etiqueta">Nuevo nombre:</label>
                         <input type="text" id="nombreusuario" name="user" class="entradaTexto"/>
-                        <label for="password" class="etiqueta">New Password:</label>
+                        <label for="password" class="etiqueta">Nueva contraseña:</label>
                         <input type="password" id="contraseña" name="password" class="entradaTexto"/>
-                        <div id="botonRegistro"><input type="submit" value="Change" id="registrarse" class="entradaTexto"/></div>
+                        <div id="botonRegistro"><input type="submit" value="Cambiar" id="registrarse" class="entradaTexto"/></div>
             </form>
             </div>
         </div>

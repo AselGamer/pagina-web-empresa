@@ -1,12 +1,16 @@
 <?php
 include_once 'bbdd.php';
 session_start();
+$usuarioComponente = componenteProvedor($_GET['id_componente']);
+
 if(!isset($_SESSION['user']))
 {
     header('Location: login.html');
 }
 
-$componentes = getIdComponentes($_GET['id_componente']);
+if($usuarioComponente != $_SESSION['id_usuario'] AND $_SESSION['user'] != 'Admin'){
+    header('Location: index.php');
+}
 ?>
 
 
@@ -16,11 +20,11 @@ $componentes = getIdComponentes($_GET['id_componente']);
     <link rel="stylesheet" href="css/login.css">
     <head>
         <meta charset="UTF-8"/>
-        <title>Test</title>
+        <title>Informatikalmi | Editar </title>
     </head>
     <body>
         <div id="cabecera">
-            <img src="images/logo.png" alt="logo" id="logo"/>
+            <a href="index.php"><img src="images/logo.png" alt="logo" id="logo"/></a>
         </div>
         <div id="cuerpo">
             <div id="login">
@@ -29,9 +33,7 @@ $componentes = getIdComponentes($_GET['id_componente']);
                         <?php
                         echo "<input type='text' id='nombre' name='nombre' value='".$componentes['nombre']."' class='entradaTexto'/>";
                         
-                        ?>
-                        
-                       
+                        ?>  
                         <label for="precio" class="etiqueta">Precio:</label>
                         <?php
                         echo "<input type='text' id='precio' name='precio' value='".$componentes['precio']."' class='entradaTexto'/>";
@@ -55,12 +57,12 @@ $componentes = getIdComponentes($_GET['id_componente']);
                             $tipoComps = getTipoComp();
                             $size = sizeof($tipoComps);
                             for($i = 0; $i < $size; $i++) {
-                                if($componentes['id_componente_tipo'] == $tipoComps[$i]['idTipoComponente']) {
-                                    
-                                    echo '<option value="'.$tipoComps[$i]['idTipoComponente'].'" selected>'.$tipoComps[$i]['nombre'].'</option>';
+                                if($componentes['id_componente_tipo'] == $tipoComps[$i]['id_tipo_componente']) {
+
+                                    echo '<option value="'.$tipoComps[$i]['id_tipo_componente'].'" selected>'.$tipoComps[$i]['nombre'].'</option>';
                                     
                                 } else {
-                                    echo '<option value='.$tipoComps[$i]['idTipoComponente'].'>'.$tipoComps[$i]['nombre'].'</option>';
+                                    echo '<option value="'.$tipoComps[$i]['id_tipo_componente'].'">'.$tipoComps[$i]['nombre'].'</option>';
                                 }
                             }
                             ?>
@@ -75,8 +77,7 @@ $componentes = getIdComponentes($_GET['id_componente']);
                       
                       
                       <?php
-                        echo "<input type='submit' id='editar' name='editar' value='Editar' class='entradaTexto'/>";
-                        
+                        echo "<div id='botonRegistro'><input type='submit' id='editar' name='editar' value='Editar' class='entradaTexto'/></div>";
                         ?>
             
                         

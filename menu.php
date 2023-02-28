@@ -1,5 +1,5 @@
 <div id="cabecera">
-            <img src="images/logo.png" alt="logo" id="logo"/>
+            <a href="index.php"><img src="images/logo.png" alt="logo" id="logo"/></a>
             <ul>
                 <li id="busqueda">
                     <!--Esto es de chat gpt-->
@@ -17,11 +17,11 @@
                     <?php
                     session_start();
                     if(!isset($_SESSION['user'])) {
-                        echo '<li><a href="login.html" class="enlace">Login</a></li>';
+                        echo '<li><a href="login.html" class="enlace">Iniciar Sesion</a></li>';
                     } else {
                         echo '<li><a href="editUsuario.php" class="enlace">'.$_SESSION['user'].'</a></li>';
-                        echo '<li><a href="cerrarSesion.php" class="enlace">Logout</a></li>';
-                        echo '<li><a href="crearProducto.php" class="enlace">Add Product</a></li>';
+                        echo '<li><a href="cerrarSesion.php" class="enlace">Cerrar Sesion</a></li>';
+                        echo '<li><a href="crearProducto.php" class="enlace">Añadir Producto</a></li>';
                         
                     }
                     ?>
