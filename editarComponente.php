@@ -1,16 +1,20 @@
 <?php
 include_once 'bbdd.php';
 session_start();
-$usuarioComponente = componenteProvedor($_GET['id_componente']);
-
 if(!isset($_SESSION['user']))
 {
     header('Location: login.html');
 }
 
-if($usuarioComponente != $_SESSION['id_usuario'] AND $_SESSION['user'] != 'Admin'){
-    header('Location: index.php');
+if(esProveedor($_SESSION['id_usuario']) != NULL) {
+    $componentes = componenteProvedor($_GET['id_componente'], $_SESSION['id_usuario']);
+    if($componentes['id_componente'] == false) {
+        header('Location: index.php');
+    }
+} else {
+    $componentes = getIdComponente($_GET['id_componente']);
 }
+
 ?>
 
 

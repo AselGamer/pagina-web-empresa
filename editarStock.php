@@ -2,14 +2,17 @@
 include_once 'bbdd.php';
 
 session_start();
-$componentes = getIdComponente($_GET['id_componente']);
-$usuarioComponente = componenteProvedor($_GET['id_componente']);
 if(!isset($_SESSION['user']))
 {
     header('Location: login.html');
 }
-if($usuarioComponente != $_SESSION['id_usuario'] AND $_SESSION['user'] != 'Admin'){
-    //header('Location: index.php');
+if(esProveedor($_SESSION['id_usuario']) != NULL) {
+    $componentes = componenteProvedor($_GET['id_componente'], $_SESSION['id_usuario']);
+    if($componentes['id_componente'] == false) {
+        header('Location: index.php');
+    }
+} else {
+    $componentes = getIdComponente($_GET['id_componente']);
 }
 ?>
 
@@ -41,7 +44,7 @@ if($usuarioComponente != $_SESSION['id_usuario'] AND $_SESSION['user'] != 'Admin
                         echo "<input name='idComponente' value=".$_GET['id_componente']." type='hidden'>";
                          ?>
                         <?php 
-                        echo '<input type="hidden" id="id_usuario" name="id_usuario" value='.$_SESSION['id_usuario'].' class="entradaTexto"/>';
+                        echo '<input type="hidden" id="id_usuario" name="id_usuario" value='.$componentes['id_usuario'].' class="entradaTexto"/>';
                         ?>
                         <?php
                         echo "<div id='botonRegistro'><input type='submit' id='añadir' name='editar' value='Añadir' class='entradaTexto'/></div>";

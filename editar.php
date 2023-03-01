@@ -1,10 +1,5 @@
 <?php
 include_once 'bbdd.php';
-session_start();
-if(!isset($_SESSION['user']))
-{
-    header('Location: login.html');
-}
 
 $ubicacionImgs = 'images/';
 
@@ -40,6 +35,7 @@ if (!empty($_FILES['imagen']['name'])) {
 
 if(isset($_POST['editar'])) {
     $resultado = editarComponentes($_POST['id'], $_POST['descripcion'], $_POST['precio'], $_POST['nombre'], $_POST['tipo_componente'], $ubicacionDeseada, $_SESSION['user']);
+    VAR_DUMP($resultado);
     header('location: index.php');
 }
 

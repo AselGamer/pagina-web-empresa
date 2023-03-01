@@ -136,7 +136,6 @@ function getComponentesUsuario($id_usuario_proveedor) {
   $sentencia = oci_parse($conex, $sql);
 
   oci_bind_by_name($sentencia, ":id_usuario", $id_usuario_proveedor);
-  
   oci_define_by_name($sentencia, 'ID_COMPONENTE', $id_componente);
   oci_define_by_name($sentencia, 'NOMBRE', $nombre);
   oci_define_by_name($sentencia, 'PRECIO', $precio);
@@ -144,6 +143,7 @@ function getComponentesUsuario($id_usuario_proveedor) {
   oci_define_by_name($sentencia, 'ID_USUARIO', $id_usuario);
   oci_define_by_name($sentencia, 'ID_TIPO_COMPONENTE', $id_tipo_com);
   oci_define_by_name($sentencia, 'IMAGEN', $imagen);
+  oci_define_by_name($sentencia, 'STOCK', $stock);
 
   oci_execute($sentencia);
 
@@ -154,12 +154,13 @@ function getComponentesUsuario($id_usuario_proveedor) {
   while(oci_fetch($sentencia))
   {
     $tipo_componente = array(
-      'id_componente'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
+      'id_componente'=> oci_result($sentencia, 'ID_COMPONENTE'),
       'nombre' => oci_result($sentencia, 'NOMBRE'),
       'descripcion' => oci_result($sentencia, 'DESCRIPCION'),
       'id_usuario' => oci_result($sentencia, 'NOMBRE'),
       'precio' => oci_result($sentencia, 'PRECIO'),
-      'imagen' => oci_result($sentencia, 'IMAGEN')
+      'imagen' => oci_result($sentencia, 'IMAGEN'),
+      'stock' => oci_result($sentencia, 'STOCK')
     );
     $tip[] = $tipo_componente;
   }
@@ -236,7 +237,7 @@ function getIdComponente($id_componente) {
       'id_componente_tipo'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
       'nombre' => oci_result($sentencia, 'NOMBRE'),
       'descripcion' => oci_result($sentencia, 'DESCRIPCION'),
-      'id_usuario' => oci_result($sentencia, 'NOMBRE'),
+      'id_usuario' => oci_result($sentencia, 'ID_USUARIO'),
       'precio' => oci_result($sentencia, 'PRECIO'),
       'imagen' => oci_result($sentencia, 'IMAGEN'),
       'stock' => oci_result($sentencia, 'STOCK')
@@ -361,7 +362,7 @@ function getComponentesTipo($id_usuario_proveedor, $tipo) {
 }
 
 
-function ActualizarStock($idComp, $Stock, $idUsu){
+function actualizarStock($idComp, $Stock, $idUsu){
   $conex = connectOCI();
   $sql = 'UPDATE Componente SET stock= :stock WHERE id_componente= :id_componente AND id_usuario = :id_usuario';
   $sentencia = oci_parse($conex, $sql);
@@ -369,23 +370,48 @@ function ActualizarStock($idComp, $Stock, $idUsu){
   oci_bind_by_name($sentencia, ':id_componente', $idComp);
   oci_bind_by_name($sentencia, ':id_usuario', $idUsu);
   $ejecucion = oci_execute($sentencia);
+  oci_free_statement($sentencia);
   oci_close($conex);
   return $ejecucion;
-
+  
 }
 
-function componenteProvedor($idComp){
+function componenteProvedor($idComp, $idUsu){
   $conex = connectOCI();
-  $sql = 'SELECT id_usuario FROM Componente WHERE id_componente= :componente';
+  $sql = 'SELECT * FROM Componente WHERE id_componente= :idComponente AND componente.id_usuario = :id_usuario';
   $sentencia = oci_parse($conex, $sql);
-  oci_bind_by_name($sentencia, ":componente", $idComp);
+  oci_bind_by_name($sentencia, ":idComponente", $idComp);
+  oci_bind_by_name($sentencia, ":id_usuario", $idUsu);
+  oci_define_by_name($sentencia, 'ID_COMPONENTE', $id_componente);
+  oci_define_by_name($sentencia, 'NOMBRE', $nombre);
+  oci_define_by_name($sentencia, 'PRECIO', $precio);
+  oci_define_by_name($sentencia, 'DESCRIPCION', $descripcion);
+  oci_define_by_name($sentencia, 'ID_USUARIO', $id_usuario);
+  oci_define_by_name($sentencia, 'ID_TIPO_COMPONENTE', $id_tipo_com);
+  oci_define_by_name($sentencia, 'IMAGEN', $imagen);
+  oci_define_by_name($sentencia, 'STOCK', $stock);
+
   oci_execute($sentencia);
 
-  oci_fetch($sentencia);  
 
+  oci_fetch($sentencia);
+  
+    $tipo_componente = array(
+      'id_componente'=> oci_result($sentencia, 'ID_COMPONENTE'),
+      'id_componente_tipo'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
+      'nombre' => oci_result($sentencia, 'NOMBRE'),
+      'descripcion' => oci_result($sentencia, 'DESCRIPCION'),
+      'id_usuario' => oci_result($sentencia, 'ID_USUARIO'),
+      'precio' => oci_result($sentencia, 'PRECIO'),
+      'imagen' => oci_result($sentencia, 'IMAGEN'),
+      'stock' => oci_result($sentencia, 'STOCK')
+    );
+
+  
+  oci_free_statement($sentencia);
   oci_close($conex);
-
-  return oci_result($sentencia, 'ID_USUARIO');
+  return $tipo_componente;
 }
+
 
 ?>

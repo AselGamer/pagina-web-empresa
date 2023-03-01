@@ -55,8 +55,10 @@ if(!isset($_SESSION['user']))
                             echo '<h3>'.$getBusqueda[$i]['nombre'].'</h3>';
                             echo '<p>'.$getBusqueda[$i]['descripcion'].'</p>';
                             echo '<p>'.$getBusqueda[$i]['precio'].'€</p>';
-                            echo '<a href="eliminar.php?id_componente='.$getBusqueda[$i]['id_componente'].'">Delete</a>';
-                            echo '<a href="editarComponente.php?id_componente='.$getBusqueda[$i]['id_componente'].'">Edit</a>';
+                            echo '<p>Stock: '.$componentes[$i]['stock'].'</p>';
+                            echo '<a href="eliminar.php?id_componente='.$getBusqueda[$i]['id_componente'].'">Borrar</a>';
+                            echo '<a href="editarComponente.php?id_componente='.$getBusqueda[$i]['id_componente'].'">Editar</a>';
+                            echo '<a href="editarStock.php?id_componente='.$componentes[$i]['id_componente'].'">Stock</a>';
                             echo '</div>';
                         }
                     }
@@ -104,10 +106,10 @@ if(!isset($_SESSION['user']))
                                 echo '<h3>'.$componente[$e]['nombre'].'</h3>';
                                 echo '<p>'.$componente[$e]['descripcion'].'</p>';
                                 echo '<p>'.$componente[$e]['precio'].'€</p>';
-                                echo '<p>Stock: '.$componentes[$i]['stock'].'</p>';
+                                echo '<p>Stock: '.$componentes[$e]['stock'].'</p>';
                                 echo '<a href="eliminarCompo.php?id_componente='.$componente[$e]['id_componente'].'">Borrar</a>';
                                 echo '<a href="editarComponente.php?id_componente='.$componente[$e]['id_componente'].'">Editar</a>';
-                                echo '<a href="editarStock.php?id_componente='.$componentes[$i]['id_componente'].'">Stock</a>';
+                                echo '<a href="editarStock.php?id_componente='.$componentes[$e]['id_componente'].'">Stock</a>';
                                 echo '</div>'; 
                                 echo '</div>';
                                 }
