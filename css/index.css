@@ -73,24 +73,6 @@ h1
     background-color: rgb(28, 28, 28);
 }
 
-#footer 
-{
-    position: relative;
-    display: flex;
-    background-color: #ff5a5c;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: center;
-    width: 100%;
-    height: 70px;
-}
-
-#footer p
-{
-    text-align: center;
-    color: black;
-}
-
 .categoria 
 {
   overflow: auto;
