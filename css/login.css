@@ -19,6 +19,7 @@
     justify-content: center;
     border: 3px solid black;
     border-radius: 25px;
+    box-shadow: 5px 5px 5px grey;
 }
 
 #login form input[type="text"] ,#login form input[type="password"], #descripcion

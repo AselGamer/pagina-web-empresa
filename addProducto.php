@@ -3,12 +3,7 @@ include_once 'bbdd.php';
 
 //var_dump($_POST);
 
-
-$ubicacionImgs = 'images/';
-
-$ubicacionDeseada = 'images/' . $_POST['id_usuario'] . $_POST['nombre'] . basename($_FILES['imagen']['name']);
-
-$temp = 'images/temp.png';
+//$ubicacionDeseada = 'images/' . $_POST['id_usuario'] . $_POST['nombre'] . basename($_FILES['imagen']['name']);
 
 
 if ($_FILES['imagen']['size'] > 1000000) {
@@ -36,7 +31,12 @@ if(!is_numeric($_POST['precio'])) {
     header('Location: crearProducto.php?error=4');
 }
 
-$exec = addProducto($_POST['descripcion'], floatval($_POST['precio']), $_POST['stock'], $_POST['nombre'], intval($_POST['id_usuario']), intval($_POST['tipo_componente']), $ubicacionDeseada);
+$exec = addProducto($_POST['descripcion'], floatval($_POST['precio']), $_POST['stock'], $_POST['nombre'], intval($_POST['id_usuario']), intval($_POST['tipo_componente']), basename($_FILES['imagen']['name']));
+
+
+$ubicacionDeseada = 'images/' . $exec . basename($_FILES['imagen']['name']);
+
+var_dump($ubicacionDeseada);
 
 if (!empty($_FILES['imagen']['name'])) {
     move_uploaded_file($_FILES['imagen']['tmp_name'], $ubicacionDeseada);
@@ -45,10 +45,12 @@ if (!empty($_FILES['imagen']['name'])) {
 }
 
 
-if($exec) {
-    header('Location: index.php');
+
+
+if($exec > 0) {
+    //header('Location: index.php');
 } else {
-    header('Location: crearProducto.php');
+    //header('Location: crearProducto.php');
 }
 
 

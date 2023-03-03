@@ -71,7 +71,6 @@ if(esProveedor($_SESSION['id_usuario']) != NULL) {
                             }
                             ?>
                         </select> 
-
                         <?php
                         echo "<input name='id' value=".$_GET['id_componente']." type='hidden'>";
                          ?>
@@ -82,12 +81,7 @@ if(esProveedor($_SESSION['id_usuario']) != NULL) {
                       
                       <?php
                         echo "<div id='botonRegistro'><input type='submit' id='editar' name='editar' value='Editar' class='entradaTexto'/></div>";
-                        ?>
-            
-                        
-                        
-                        
-                        
+                        ?>       
             </form>
             </div>
             <?php
@@ -102,6 +96,11 @@ if(esProveedor($_SESSION['id_usuario']) != NULL) {
             }
             ?>
         </div>
+        <div class="producto" >
+                    <form action="index.php" method="post" enctype="multipart/form-data">
+                    <input type="button" onclick="history.back()" name="volver atrás" value="Volver atrás">
+                    </form>
+                </div>
         <div id="footer">
             <p>© 2023 Informatikalmi</p>
         </div>

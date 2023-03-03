@@ -33,8 +33,10 @@ if(!isset($_SESSION['user']))
                     if($_SESSION['id_proveedor'] == NULL) 
                     {
                         $componentes = getComponentes();
+                        $componentesTipo = getComponentes();
                     } else {
                         $componentes = getComponentesUsuario($_SESSION['id_usuario']);
+                        $componentesTipo = getComponentesUsuario($_SESSION['id_usuario']);
                     }
 
                     if(isset($_POST['filtro']) && !$_POST['filtro']==null){
@@ -50,7 +52,6 @@ if(!isset($_SESSION['user']))
                         
                         for ($i=0; $i < $tam; $i++) { 
                             echo '<div class="producto">';
-                            
                             echo '<img src="'.$getBusqueda[$i]['imagen'].'" alt="'.$getBusqueda[$i]['nombre'].'">';
                             echo '<h3>'.$getBusqueda[$i]['nombre'].'</h3>';
                             echo '<p>'.$getBusqueda[$i]['descripcion'].'</p>';
@@ -95,24 +96,29 @@ if(!isset($_SESSION['user']))
                         $tipoComponente = getTipoComp();
                         $tam = sizeof($tipoComponente);
                         for ($i=0; $i < $tam; $i++) { 
-                            $componente = getComponentesTipo($_SESSION['id_usuario'], $tipoComponente[$i]['id_tipo_componente']);
-                            $tamComp = sizeof($componente);
+                            if($_SESSION['id_proveedor'] == NULL) 
+                            {
+                            $componentesTipo = getComponentesTipo( $tipoComponente[$i]['id_tipo_componente']);
+                            } else {
+                            $componentesTipo = getComponentesTipoUsuario($_SESSION['id_usuario'], $tipoComponente[$i]['id_tipo_componente']);
+                            }
+                            $tamComp = sizeof($componentesTipo);
                             if(!$tamComp == 0){
                                 echo '<h2>'.$tipoComponente[$i]['nombre'].'</h2>';
-                            for ($e=0; $e < $tamComp; $e++) {
                                 echo '<div id="productos">';
+                            for ($e=0; $e < $tamComp; $e++) {
                                 echo '<div class="producto">';
-                                echo '<img src="'.$componente[$e]['imagen'].'" alt="'.$componente[$e]['nombre'].'">';
-                                echo '<h3>'.$componente[$e]['nombre'].'</h3>';
-                                echo '<p>'.$componente[$e]['descripcion'].'</p>';
-                                echo '<p>'.$componente[$e]['precio'].'€</p>';
-                                echo '<p>Stock: '.$componentes[$e]['stock'].'</p>';
-                                echo '<a href="eliminarCompo.php?id_componente='.$componente[$e]['id_componente'].'">Borrar</a>';
-                                echo '<a href="editarComponente.php?id_componente='.$componente[$e]['id_componente'].'">Editar</a>';
-                                echo '<a href="editarStock.php?id_componente='.$componentes[$e]['id_componente'].'">Stock</a>';
+                                echo '<img src="'.$componentesTipo[$e]['imagen'].'" alt="'.$componentesTipo[$e]['nombre'].'">';
+                                echo '<h3>'.$componentesTipo[$e]['nombre'].'</h3>';
+                                echo '<p>'.$componentesTipo[$e]['descripcion'].'</p>';
+                                echo '<p>'.$componentesTipo[$e]['precio'].'€</p>';
+                                echo '<p>Stock: '.$componentesTipo[$e]['stock'].'</p>';
+                                echo '<a href="eliminarCompo.php?id_componente='.$componentesTipo[$e]['id_componente'].'">Borrar</a>';
+                                echo '<a href="editarComponente.php?id_componente='.$componentesTipo[$e]['id_componente'].'">Editar</a>';
+                                echo '<a href="editarStock.php?id_componente='.$componentesTipo[$e]['id_componente'].'">Stock</a>';
                                 echo '</div>'; 
-                                echo '</div>';
                                 }
+                                echo '</div>';
                             }
                         }
                     }

@@ -70,10 +70,15 @@ function esProveedor($id_usuario) {
 function addProducto($descripcion, $precio, $stock, $nombre, $id_usuario, $tipo_comp, $imagen) 
 {
     $conex = connectOCI();
-    $sql = 'INSERT INTO Componente(descripcion, precio, nombre, id_usuario, id_tipo_componente, imagen, stock) VALUES (:descripcion, :precio, :nombre, :id_usuario, :tipo_comp, :imagen, :stock)';
+
+    $id_imagen = -1;
+
+    $sql = '
+    BEGIN :id_imagen := addComponente(:descripcion, :precio, :nombre, :id_usuario, :tipo_comp, :imagen, :stock); END;';
     //$sql = "INSERT INTO Componente(descripcion, precio, nombre, id_usuario, id_tipo_componente, imagen) VALUES ('aa', 12, 'aa', 1, 1, 'aaa);";
     $sentencia = oci_parse($conex, $sql);
 
+    oci_bind_by_name($sentencia, ":id_imagen", $id_imagen);
     oci_bind_by_name($sentencia, ":descripcion", $descripcion);
     oci_bind_by_name($sentencia, ":precio", $precio);
     oci_bind_by_name($sentencia, ":nombre", $nombre);
@@ -83,14 +88,17 @@ function addProducto($descripcion, $precio, $stock, $nombre, $id_usuario, $tipo_
     oci_bind_by_name($sentencia, ":stock", $stock);
 
     $ejecuccion = oci_execute($sentencia);
+
+    var_dump($descripcion, $precio, $stock, $nombre, $id_usuario, $tipo_comp, $imagen);
+
     if(!$ejecuccion) {
-        echo 'Error al ejecutar la sentencia '. oci_error();
+        echo 'Error al ejecutar la sentencia '. $id_imagen;
     }
     
     oci_free_statement($sentencia);
     oci_close($conex);
 
-    return $ejecuccion;
+    return $id_imagen;
 }
 
 function getComponentes() {
@@ -321,7 +329,46 @@ function getComponenteTipos($idUsuario){
   return $tip;
 }
 
-function getComponentesTipo($id_usuario_proveedor, $tipo) {
+function getComponentesTipo($tipo) {
+  $conex = connectOCI();
+  $sql = 'SELECT * FROM Componente WHERE id_tipo_componente= :tipo_componente';
+  $sentencia = oci_parse($conex, $sql);
+
+  oci_bind_by_name($sentencia, ":tipo_componente", $tipo);
+  oci_define_by_name($sentencia, 'ID_COMPONENTE', $id_componente);
+  oci_define_by_name($sentencia, 'NOMBRE', $nombre);
+  oci_define_by_name($sentencia, 'PRECIO', $precio);
+  oci_define_by_name($sentencia, 'DESCRIPCION', $descripcion);
+  oci_define_by_name($sentencia, 'ID_USUARIO', $id_usuario);
+  oci_define_by_name($sentencia, 'ID_TIPO_COMPONENTE', $id_tipo_com);
+  oci_define_by_name($sentencia, 'IMAGEN', $imagen);
+
+  oci_execute($sentencia);
+
+  $tip = array();
+
+  
+
+  while(oci_fetch($sentencia))
+  {
+    $tipo_componente = array(
+      'id_componente'=> oci_result($sentencia, 'ID_COMPONENTE'),
+      'id_tipo_componente'=> oci_result($sentencia, 'ID_TIPO_COMPONENTE'),
+      'nombre' => oci_result($sentencia, 'NOMBRE'),
+      'descripcion' => oci_result($sentencia, 'DESCRIPCION'),
+      'id_usuario' => oci_result($sentencia, 'NOMBRE'),
+      'precio' => oci_result($sentencia, 'PRECIO'),
+      'imagen' => oci_result($sentencia, 'IMAGEN')
+    );
+    $tip[] = $tipo_componente;
+  }
+
+  oci_free_statement($sentencia);
+  oci_close($conex);
+  return $tip;
+}
+
+function getComponentesTipoUsuario($id_usuario_proveedor, $tipo) {
   $conex = connectOCI();
   $sql = 'SELECT * FROM Componente WHERE id_usuario = :id_usuario AND id_tipo_componente= :tipo_componente';
   $sentencia = oci_parse($conex, $sql);
