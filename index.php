@@ -126,8 +126,7 @@ if(!isset($_SESSION['user']))
             </div>
         </div>
         <div id="footer">
-        <img src="images/logo.png" id="logo1" style="\#logo1\ \{: margin: center;padding: 2px;height: 64px;width: 64px;" alt="logo1">
-            <p>© 2023 Informatikalmi</p>
+            <p class="footerTexto">© 2023 Informatikalmi</p>
         </div>
     </body>
 </html>

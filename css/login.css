@@ -20,6 +20,7 @@
     border: 3px solid black;
     border-radius: 25px;
     box-shadow: 5px 5px 5px grey;
+    background-color: #333;
 }
 
 #login form input[type="text"] ,#login form input[type="password"], #descripcion
@@ -29,13 +30,17 @@
     width: 300px;
     caret-color: transparent;
     resize: none;
-    
+    height: 32px;
+    padding: 0px 10px; 
 }
 
 #login form label
 {
     margin-top: 20px;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-block: 12px;
+    font-weight: bolder;
+    color: white;
 }
 
 #botonRegistro input
@@ -46,6 +51,7 @@
     font-size: 16px;
     border-radius: 20px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 #botonRegistro input:hover
@@ -86,4 +92,14 @@
 
 #entradaTexto {
     content: 'Upload file';
+}
+#descripcion 
+{
+    border: 2px solid black;
+    border-radius: 25px;
+    width: 300px;
+    caret-color: transparent;
+    resize: none;
+    height: 94px;
+    padding: 0px 14px;
 }

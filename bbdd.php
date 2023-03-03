@@ -140,7 +140,10 @@ function getComponentes() {
 
 function getComponentesUsuario($id_usuario_proveedor) {
   $conex = connectOCI();
-  $sql = 'SELECT * FROM Componente WHERE id_usuario = :id_usuario';
+  $sql = 'SELECT * FROM Componente 
+  INNER JOIN Usuario ON componente.id_usuario = usuario.id_usuario
+  INNER JOIN (SELECT usuario.id_proveedor FROM Usuario INNER JOIN proveedor ON proveedor.id_proveedor = proveedor.id_proveedor WHERE usuario.id_usuario = :id_usuario GROUP BY usuario.id_proveedor) prov ON 
+  usuario.id_proveedor = prov.id_proveedor';
   $sentencia = oci_parse($conex, $sql);
 
   oci_bind_by_name($sentencia, ":id_usuario", $id_usuario_proveedor);

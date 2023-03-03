@@ -98,7 +98,7 @@ if(esProveedor($_SESSION['id_usuario']) != NULL) {
         </div>
         <div class="producto" >
                     <form action="index.php" method="post" enctype="multipart/form-data">
-                    <input type="button" onclick="history.back()" name="volver atrás" value="Volver atrás">
+                    <input type="button" class="volver" onclick="history.back()" name="volver atrás" value="Volver atrás">
                     </form>
                 </div>
         <div id="footer">
